@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎂 Surprise!</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Pacifico&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  min-height: 100vh;
+  background: radial-gradient(ellipse at 50% 0%, #3b0764, #0f0c29 60%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Poppins', sans-serif;
+  overflow: hidden;
+}
+
+/* ── Stars background ── */
+.stars {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+.star {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  animation: twinkle ease-in-out infinite;
+}
+@keyframes twinkle {
+  0%,100% { opacity: 0.2; transform: scale(1); }
+  50%      { opacity: 1;   transform: scale(1.4); }
+}
+
+/* ── Floating particles ── */
+.particle {
+  position: fixed;
+  border-radius: 50%;
+  animation: floatUp linear infinite;
+  pointer-events: none;
+  opacity: 0.7;
+}
+@keyframes floatUp {
+  0%   { transform: translateY(110vh) rotate(0deg); opacity: 0.7; }
+  100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
+}
+
+/* ══════════════════════════════
+   STEP 1 — SURPRISE BOX
+══════════════════════════════ */
+#step1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  animation: fadeIn 0.8s ease;
+}
+@keyframes fadeIn {
+  from { opacity:0; transform: translateY(20px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+
+.surprise-box {
+  position: relative;
+  width: 220px;
+  height: 200px;
+  cursor: default;
+}
+
+/* Box body */
+.box-body {
+  position: absolute;
+  bottom: 0;
+  width: 220px;
+  height: 140px;
+  background: linear-gradient(135deg, #e63946, #c1121f);
+  border-radius: 8px 8px 16px 16px;
+  box-shadow: 0 12px 40px rgba(230,57,70,0.5), inset 0 1px 0 rgba(255,255,255,0.2);
+  overflow: hidden;
+}
+.box-body::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%; transform: translateX(-50%);
+  width: 28px; height: 100%;
+  background: rgba(255,255,255,0.15);
+}
+.box-ribbon-h {
+  position: absolute;
+  top: 50%; transform: translateY(-50%);
+  width: 100%; height: 22px;
+  background: rgba(255,255,255,0.15);
+}
+
+/* Lid */
+.box-lid {
+  position: absolute;
+  top: 0; left: -10px;
+  width: 240px;
+  height: 68px;
+  background: linear-gradient(135deg, #ff6b6b, #e63946);
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(230,57,70,0.4);
+  transform-origin: center bottom;
+  animation: lidBounce 2s ease-in-out infinite;
+}
+.box-lid::before {
+  content: '';
+  position: absolute;
+  left: 50%; transform: translateX(-50%);
+  top: 0; width: 28px; height: 100%;
+  background: rgba(255,255,255,0.2);
+}
+@keyframes lidBounce {
+  0%,100% { transform: translateY(0) rotate(-3deg); }
+  50%      { transform: translateY(-18px) rotate(3deg); }
+}
+
+/* Bow */
+.bow {
+  position: absolute;
+  top: -18px; left: 50%; transform: translateX(-50%);
+  font-size: 2.4rem;
+  animation: bowPulse 1.5s ease-in-out infinite;
+}
+@keyframes bowPulse {
+  0%,100% { transform: translateX(-50%) scale(1); }
+  50%      { transform: translateX(-50%) scale(1.15) rotate(5deg); }
+}
+
+/* Emojis popping out */
+.pop-emojis {
+  position: absolute;
+  top: -10px; left: 50%; transform: translateX(-50%);
+  display: flex; gap: 6px;
+  font-size: 1.4rem;
+  animation: popOut 2s ease-in-out infinite;
+}
+@keyframes popOut {
+  0%,100% { transform: translateX(-50%) translateY(0); opacity:1; }
+  50%      { transform: translateX(-50%) translateY(-22px); opacity:1; }
+}
+
+/* SURPRISE text */
+.surprise-text {
+  font-family: 'Pacifico', cursive;
+  font-size: 2.8rem;
+  background: linear-gradient(90deg, #ffd700, #ff6b6b, #a855f7, #48dbfb);
+  background-size: 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 2.5s linear infinite, slideDown 0.8s ease;
+  text-align: center;
+  letter-spacing: 3px;
+}
+@keyframes shimmer { to { background-position: 200%; } }
+@keyframes slideDown {
+  from { opacity:0; transform: translateY(-30px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+
+/* Click Here button */
+.click-btn {
+  background: linear-gradient(135deg, #ffd700, #ff9500);
+  color: #1a1a2e;
+  border: none;
+  padding: 14px 42px;
+  border-radius: 50px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 1px;
+  box-shadow: 0 8px 25px rgba(255,215,0,0.45);
+  transition: transform 0.15s, box-shadow 0.15s;
+  animation: btnPulse 2s ease-in-out infinite;
+}
+.click-btn:hover {
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 14px 35px rgba(255,215,0,0.6);
+}
+.click-btn:active { transform: scale(0.97); }
+@keyframes btnPulse {
+  0%,100% { box-shadow: 0 8px 25px rgba(255,215,0,0.45); }
+  50%      { box-shadow: 0 8px 40px rgba(255,215,0,0.8), 0 0 0 8px rgba(255,215,0,0.12); }
+}
+
+/* ══════════════════════════════
+   STEP 2 — NAME INPUT
+══════════════════════════════ */
+#step2 {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  animation: fadeIn 0.6s ease;
+}
+
+.input-label {
+  color: rgba(255,255,255,0.8);
+  font-size: 1rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.name-input-wrap {
+  position: relative;
+}
+.name-input {
+  background: rgba(255,255,255,0.08);
+  border: 2px solid rgba(255,215,0,0.4);
+  color: white;
+  padding: 14px 24px;
+  border-radius: 50px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1rem;
+  outline: none;
+  width: 280px;
+  text-align: center;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  caret-color: #ffd700;
+}
+.name-input::placeholder { color: rgba(255,255,255,0.3); }
+.name-input:focus {
+  border-color: #ffd700;
+  box-shadow: 0 0 20px rgba(255,215,0,0.25);
+}
+
+.go-btn {
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+  color: white;
+  border: none;
+  padding: 13px 42px;
+  border-radius: 50px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 1px;
+  box-shadow: 0 8px 25px rgba(168,85,247,0.4);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.go-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 35px rgba(168,85,247,0.55);
+}
+
+.wrong-name-msg {
+  color: #ff6b6b;
+  font-size: 0.8rem;
+  opacity: 0;
+  transition: opacity 0.3s;
+  letter-spacing: 1px;
+}
+.wrong-name-msg.show { opacity: 1; }
+
+/* ══════════════════════════════
+   STEP 3 — WISH CARD
+══════════════════════════════ */
+#step3 {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  animation: zoomIn 0.8s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes zoomIn {
+  from { opacity:0; transform: scale(0.5) rotateY(-20deg); }
+  to   { opacity:1; transform: scale(1) rotateY(0deg); }
+}
+
+.wish-card {
+  width: 320px;
+  background: linear-gradient(160deg, #1a1a2e, #16213e, #0f3460);
+  border-radius: 28px;
+  border: 2px solid rgba(255,215,0,0.3);
+  padding: 30px 24px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 60px rgba(168,85,247,0.2);
+}
+
+.card-stars-bg {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 15% 25%, rgba(255,255,255,0.8), transparent),
+    radial-gradient(1px 1px at 75% 15%, rgba(255,220,100,0.7), transparent),
+    radial-gradient(1.5px 1.5px at 90% 60%, rgba(255,255,255,0.6), transparent),
+    radial-gradient(1px 1px at 30% 80%, rgba(255,150,200,0.6), transparent),
+    radial-gradient(1px 1px at 60% 90%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(2px 2px at 50% 40%, rgba(255,255,255,0.3), transparent);
+  pointer-events: none;
+}
+
+.card-top-emojis {
+  display: flex; gap: 10px;
+  font-size: 1.5rem;
+  z-index: 1;
+}
+.card-top-emojis span { animation: floatBalloon 2.5s ease-in-out infinite; }
+.card-top-emojis span:nth-child(2) { animation-delay: 0.4s; }
+.card-top-emojis span:nth-child(3) { animation-delay: 0.8s; }
+@keyframes floatBalloon {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+
+/* ── Photo circle ── */
+.photo-ring {
+  position: relative;
+  width: 155px; height: 155px;
+  border-radius: 50%;
+  background: conic-gradient(#ffd700, #ff6b6b, #a855f7, #48dbfb, #ffd700);
+  padding: 4px;
+  box-shadow: 0 0 40px rgba(255,215,0,0.5);
+  animation: ringGlow 2.5s ease-in-out infinite;
+  z-index: 1;
+}
+@keyframes ringGlow {
+  0%,100% { box-shadow: 0 0 25px rgba(255,215,0,0.4); }
+  50%      { box-shadow: 0 0 55px rgba(255,215,0,0.9), 0 0 90px rgba(168,85,247,0.4); }
+}
+.photo-circle {
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #0f0c29;
+}
+
+/* ─────────────────────────────────────────────
+   👇 REPLACE src="" with your actual image path
+   e.g. src="raizel.jpg"  or  src="https://..."
+───────────────────────────────────────────── */
+.photo-circle img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  /* ADD YOUR PHOTO SRC HERE ↓ */
+  content: url("Raizel.jpg");        /* ← paste your image URL/path here */
+  display: block;
+}
+
+/* fallback emoji if no photo */
+.photo-circle .no-photo {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 4rem;
+}
+
+/* ── Name ── */
+.card-name {
+  font-family: 'Dancing Script', cursive;
+  font-size: 2.2rem;
+  color: #ffd700;
+  text-shadow: 0 0 25px rgba(255,215,0,0.7);
+  z-index: 1;
+  animation: namePop 0.6s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+@keyframes namePop {
+  from { opacity:0; transform: scale(0.5); }
+  to   { opacity:1; transform: scale(1); }
+}
+
+/* ── Happy Birthday ── */
+.hb-text {
+  font-family: 'Pacifico', cursive;
+  font-size: 1.55rem;
+  background: linear-gradient(90deg, #ffd700, #ff6b6b, #a855f7, #48dbfb);
+  background-size: 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 2s linear infinite, namePop 0.7s 0.2s cubic-bezier(0.34,1.56,0.64,1) both;
+  z-index: 1;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.wish-msg {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.75);
+  text-align: center;
+  line-height: 1.9;
+  z-index: 1;
+}
+
+.bottom-hearts {
+  font-size: 1.4rem;
+  z-index: 1;
+  animation: heartBeat 1.2s ease-in-out infinite;
+}
+@keyframes heartBeat {
+  0%,100% { transform: scale(1); }
+  50%      { transform: scale(1.3); }
+}
+
+/* ── Confetti ── */
+.confetti-piece {
+  position: fixed;
+  top: -12px;
+  animation: confettiFall linear forwards;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+}
+@keyframes confettiFall {
+  0%   { transform: translateY(0) rotate(0deg); opacity:1; }
+  100% { transform: translateY(110vh) rotate(900deg); opacity:0; }
+}
+</style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+
+<!-- ══ STEP 1: SURPRISE ══ -->
+<div id="step1">
+  <div class="surprise-text">✨ SURPRISE ✨</div>
+
+  <div class="surprise-box">
+    <div class="box-lid">
+      <div class="bow">🎀</div>
+    </div>
+    <div class="pop-emojis">🎁🎊🎉</div>
+    <div class="box-body">
+      <div class="box-ribbon-h"></div>
+    </div>
+  </div>
+
+  <button class="click-btn" onclick="goToStep2()">🎁 Click Here</button>
+</div>
+
+<!-- ══ STEP 2: NAME INPUT ══ -->
+<div id="step2">
+  <div class="input-label">Apna Naam Likho 💫</div>
+  <div class="name-input-wrap">
+    <input class="name-input" id="nameInput" type="text" placeholder="Enter your name..."
+      onkeydown="if(event.key==='Enter') checkName()">
+  </div>
+  <button class="go-btn" onclick="checkName()">Open My Surprise 🎉</button>
+  <div class="wrong-name-msg" id="wrongMsg">❌ Yeh card sirf ek khaas insaan ke liye hai!</div>
+</div>
+
+<!-- ══ STEP 3: WISH CARD ══ -->
+<div id="step3">
+  <div class="wish-card">
+    <div class="card-stars-bg"></div>
+    <div class="card-top-emojis">
+      <span>🎈</span><span>🎂</span><span>🎈</span>
+    </div>
+
+    <!-- PHOTO -->
+    <div class="photo-ring">
+      <div class="photo-circle">
+        <!--
+          ════════════════════════════════════
+          👇 APNI PHOTO YAHAN ADD KARO
+          src ke andar photo ka path ya URL do
+          ════════════════════════════════════
+        -->
+        <img src="Raizel.jpg" alt="Raizel"
+          onerror="this.style.display='none'; document.getElementById('fallbackEmoji').style.display='flex'">
+        <div class="no-photo" id="fallbackEmoji" style="display:none">🌸</div>
+      </div>
+    </div>
+
+    <!-- NAME -->
+    <div class="card-name" id="cardName">Raizel</div>
+
+    <!-- HAPPY BIRTHDAY -->
+    <div class="hb-text">🎂 Happy Birthday! 🎂</div>
+
+    <div class="wish-msg">
+      May your day be wrapped in joy and laughter,<br>
+      May every dream you hold come true,<br>
+      And may the year ahead be your most beautiful one yet. 🎂✨<br>
+        Happy Birthday, Raizel! 💖
+    </div>
+
+    <div class="bottom-hearts">💖 💛 💜 💛 💖</div>
+  </div>
+</div>
+
+<script>
+// ── Generate stars ──
+const starsEl = document.getElementById('stars');
+for (let i = 0; i < 80; i++) {
+  const s = document.createElement('div');
+  s.className = 'star';
+  const size = 1 + Math.random() * 2.5;
+  s.style.cssText = `
+    left:${Math.random()*100}vw; top:${Math.random()*100}vh;
+    width:${size}px; height:${size}px;
+    animation-duration:${2+Math.random()*4}s;
+    animation-delay:${Math.random()*4}s;
+  `;
+  starsEl.appendChild(s);
+}
+
+// ── Floating particles ──
+const pColors = ['#ff6b6b','#ffd700','#a855f7','#48dbfb','#ff9ff3','#feca57','#26de81'];
+for (let i = 0; i < 20; i++) {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  const size = 4 + Math.random() * 6;
+  p.style.cssText = `
+    left:${Math.random()*100}vw;
+    background:${pColors[Math.floor(Math.random()*pColors.length)]};
+    width:${size}px; height:${size}px;
+    animation-duration:${5+Math.random()*7}s;
+    animation-delay:${Math.random()*7}s;
+  `;
+  document.body.appendChild(p);
+}
+
+// ── Step 1 → 2 ──
+function goToStep2() {
+  document.getElementById('step1').style.display = 'none';
+  const s2 = document.getElementById('step2');
+  s2.style.display = 'flex';
+  setTimeout(() => document.getElementById('nameInput').focus(), 100);
+}
+
+// ── Check name ──
+function checkName() {
+  const val = document.getElementById('nameInput').value.trim();
+  const normalized = val.toLowerCase().replace(/\s+/g, '');
+  // Accepts: raizel, Raizel, RAIZEL
+  if (normalized === 'raizel') {
+    showCard();
+  } else {
+    const msg = document.getElementById('wrongMsg');
+    msg.classList.add('show');
+    document.getElementById('nameInput').style.borderColor = '#ff6b6b';
+    setTimeout(() => {
+      msg.classList.remove('show');
+      document.getElementById('nameInput').style.borderColor = 'rgba(255,215,0,0.4)';
+    }, 2500);
+  }
+}
+
+// ── Show wish card ──
+function showCard() {
+  document.getElementById('step2').style.display = 'none';
+  const s3 = document.getElementById('step3');
+  s3.style.display = 'flex';
+  fireConfetti();
+}
+
+// ── Confetti ──
+function fireConfetti() {
+  const colors = ['#ffd700','#ff6b6b','#a855f7','#48dbfb','#ff9ff3','#26de81','#feca57'];
+  for (let i = 0; i < 120; i++) {
+    setTimeout(() => {
+      const c = document.createElement('div');
+      c.className = 'confetti-piece';
+      const size = 7 + Math.random() * 10;
+      c.style.cssText = `
+        left:${Math.random()*100}vw;
+        background:${colors[Math.floor(Math.random()*colors.length)]};
+        width:${size}px; height:${size}px;
+        border-radius:${Math.random()>0.5 ? '50%' : '3px'};
+        animation-duration:${1.8+Math.random()*2}s;
+        animation-delay:0s;
+      `;
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 4500);
+    }, i * 20);
+  }
+}
+</script>
+</body>
+</html>
