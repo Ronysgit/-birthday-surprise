@@ -63,7 +63,7 @@
       z-index: 10;
     }
     .glass-nav {
-      position: sticky;
+      position: fixed;
       top: 0;
       z-index: 100;
       background: rgba(5,5,20,0.6);
@@ -101,6 +101,7 @@
     section {
       padding: 80px 5%;
       position: relative;
+      scroll-margin-top: 100px;
     }
     .container {
       max-width: 1200px;
@@ -725,6 +726,23 @@
     observer.observe(el);
   });
   document.querySelector('.hero-container')?.classList.add('visible');
+
+  // Smooth navbar scrolling
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+
+      const targetId = this.getAttribute('href');
+      const targetSection = document.querySelector(targetId);
+
+      if (targetSection) {
+        window.scrollTo({
+          top: targetSection.offsetTop - 80,
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
   
   // Loader removal + force page start from top
   function removeLoader() {
