@@ -1,581 +1,768 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🎂 Surprise!</title>
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Pacifico&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-<style>
-* { margin:0; padding:0; box-sizing:border-box; }
-
-body {
-  min-height: 100vh;
-  background: radial-gradient(ellipse at 50% 0%, #3b0764, #0f0c29 60%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Poppins', sans-serif;
-  overflow: hidden;
-}
-
-/* ── Stars background ── */
-.stars {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-}
-.star {
-  position: absolute;
-  background: white;
-  border-radius: 50%;
-  animation: twinkle ease-in-out infinite;
-}
-@keyframes twinkle {
-  0%,100% { opacity: 0.2; transform: scale(1); }
-  50%      { opacity: 1;   transform: scale(1.4); }
-}
-
-/* ── Floating particles ── */
-.particle {
-  position: fixed;
-  border-radius: 50%;
-  animation: floatUp linear infinite;
-  pointer-events: none;
-  opacity: 0.7;
-}
-@keyframes floatUp {
-  0%   { transform: translateY(110vh) rotate(0deg); opacity: 0.7; }
-  100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
-}
-
-/* ══════════════════════════════
-   STEP 1 — SURPRISE BOX
-══════════════════════════════ */
-#step1 {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 28px;
-  animation: fadeIn 0.8s ease;
-}
-@keyframes fadeIn {
-  from { opacity:0; transform: translateY(20px); }
-  to   { opacity:1; transform: translateY(0); }
-}
-
-.surprise-box {
-  position: relative;
-  width: 220px;
-  height: 200px;
-  cursor: default;
-}
-
-/* Box body */
-.box-body {
-  position: absolute;
-  bottom: 0;
-  width: 220px;
-  height: 140px;
-  background: linear-gradient(135deg, #e63946, #c1121f);
-  border-radius: 8px 8px 16px 16px;
-  box-shadow: 0 12px 40px rgba(230,57,70,0.5), inset 0 1px 0 rgba(255,255,255,0.2);
-  overflow: hidden;
-}
-.box-body::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 50%; transform: translateX(-50%);
-  width: 28px; height: 100%;
-  background: rgba(255,255,255,0.15);
-}
-.box-ribbon-h {
-  position: absolute;
-  top: 50%; transform: translateY(-50%);
-  width: 100%; height: 22px;
-  background: rgba(255,255,255,0.15);
-}
-
-/* Lid */
-.box-lid {
-  position: absolute;
-  top: 0; left: -10px;
-  width: 240px;
-  height: 68px;
-  background: linear-gradient(135deg, #ff6b6b, #e63946);
-  border-radius: 10px;
-  box-shadow: 0 6px 20px rgba(230,57,70,0.4);
-  transform-origin: center bottom;
-  animation: lidBounce 2s ease-in-out infinite;
-}
-.box-lid::before {
-  content: '';
-  position: absolute;
-  left: 50%; transform: translateX(-50%);
-  top: 0; width: 28px; height: 100%;
-  background: rgba(255,255,255,0.2);
-}
-@keyframes lidBounce {
-  0%,100% { transform: translateY(0) rotate(-3deg); }
-  50%      { transform: translateY(-18px) rotate(3deg); }
-}
-
-/* Bow */
-.bow {
-  position: absolute;
-  top: -18px; left: 50%; transform: translateX(-50%);
-  font-size: 2.4rem;
-  animation: bowPulse 1.5s ease-in-out infinite;
-}
-@keyframes bowPulse {
-  0%,100% { transform: translateX(-50%) scale(1); }
-  50%      { transform: translateX(-50%) scale(1.15) rotate(5deg); }
-}
-
-/* Emojis popping out */
-.pop-emojis {
-  position: absolute;
-  top: -10px; left: 50%; transform: translateX(-50%);
-  display: flex; gap: 6px;
-  font-size: 1.4rem;
-  animation: popOut 2s ease-in-out infinite;
-}
-@keyframes popOut {
-  0%,100% { transform: translateX(-50%) translateY(0); opacity:1; }
-  50%      { transform: translateX(-50%) translateY(-22px); opacity:1; }
-}
-
-/* SURPRISE text */
-.surprise-text {
-  font-family: 'Pacifico', cursive;
-  font-size: 2.8rem;
-  background: linear-gradient(90deg, #ffd700, #ff6b6b, #a855f7, #48dbfb);
-  background-size: 200%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: shimmer 2.5s linear infinite, slideDown 0.8s ease;
-  text-align: center;
-  letter-spacing: 3px;
-}
-@keyframes shimmer { to { background-position: 200%; } }
-@keyframes slideDown {
-  from { opacity:0; transform: translateY(-30px); }
-  to   { opacity:1; transform: translateY(0); }
-}
-
-/* Click Here button */
-.click-btn {
-  background: linear-gradient(135deg, #ffd700, #ff9500);
-  color: #1a1a2e;
-  border: none;
-  padding: 14px 42px;
-  border-radius: 50px;
-  font-family: 'Poppins', sans-serif;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  letter-spacing: 1px;
-  box-shadow: 0 8px 25px rgba(255,215,0,0.45);
-  transition: transform 0.15s, box-shadow 0.15s;
-  animation: btnPulse 2s ease-in-out infinite;
-}
-.click-btn:hover {
-  transform: translateY(-3px) scale(1.04);
-  box-shadow: 0 14px 35px rgba(255,215,0,0.6);
-}
-.click-btn:active { transform: scale(0.97); }
-@keyframes btnPulse {
-  0%,100% { box-shadow: 0 8px 25px rgba(255,215,0,0.45); }
-  50%      { box-shadow: 0 8px 40px rgba(255,215,0,0.8), 0 0 0 8px rgba(255,215,0,0.12); }
-}
-
-/* ══════════════════════════════
-   STEP 2 — NAME INPUT
-══════════════════════════════ */
-#step2 {
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  animation: fadeIn 0.6s ease;
-}
-
-.input-label {
-  color: rgba(255,255,255,0.8);
-  font-size: 1rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-}
-
-.name-input-wrap {
-  position: relative;
-}
-.name-input {
-  background: rgba(255,255,255,0.08);
-  border: 2px solid rgba(255,215,0,0.4);
-  color: white;
-  padding: 14px 24px;
-  border-radius: 50px;
-  font-family: 'Poppins', sans-serif;
-  font-size: 1.1rem;
-  outline: none;
-  width: 280px;
-  text-align: center;
-  transition: border-color 0.3s, box-shadow 0.3s;
-  caret-color: #ffd700;
-}
-.name-input::placeholder { color: rgba(255,255,255,0.3); }
-.name-input:focus {
-  border-color: #ffd700;
-  box-shadow: 0 0 20px rgba(255,215,0,0.25);
-}
-
-.go-btn {
-  background: linear-gradient(135deg, #a855f7, #ec4899);
-  color: white;
-  border: none;
-  padding: 13px 42px;
-  border-radius: 50px;
-  font-family: 'Poppins', sans-serif;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  letter-spacing: 1px;
-  box-shadow: 0 8px 25px rgba(168,85,247,0.4);
-  transition: transform 0.15s, box-shadow 0.15s;
-}
-.go-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 14px 35px rgba(168,85,247,0.55);
-}
-
-.wrong-name-msg {
-  color: #ff6b6b;
-  font-size: 0.8rem;
-  opacity: 0;
-  transition: opacity 0.3s;
-  letter-spacing: 1px;
-}
-.wrong-name-msg.show { opacity: 1; }
-
-/* ══════════════════════════════
-   STEP 3 — WISH CARD
-══════════════════════════════ */
-#step3 {
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  animation: zoomIn 0.8s cubic-bezier(0.34,1.56,0.64,1);
-}
-@keyframes zoomIn {
-  from { opacity:0; transform: scale(0.5) rotateY(-20deg); }
-  to   { opacity:1; transform: scale(1) rotateY(0deg); }
-}
-
-.wish-card {
-  width: 320px;
-  background: linear-gradient(160deg, #1a1a2e, #16213e, #0f3460);
-  border-radius: 28px;
-  border: 2px solid rgba(255,215,0,0.3);
-  padding: 30px 24px 28px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 14px;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 60px rgba(168,85,247,0.2);
-}
-
-.card-stars-bg {
-  position: absolute;
-  inset: 0;
-  background-image:
-    radial-gradient(1px 1px at 15% 25%, rgba(255,255,255,0.8), transparent),
-    radial-gradient(1px 1px at 75% 15%, rgba(255,220,100,0.7), transparent),
-    radial-gradient(1.5px 1.5px at 90% 60%, rgba(255,255,255,0.6), transparent),
-    radial-gradient(1px 1px at 30% 80%, rgba(255,150,200,0.6), transparent),
-    radial-gradient(1px 1px at 60% 90%, rgba(255,255,255,0.5), transparent),
-    radial-gradient(2px 2px at 50% 40%, rgba(255,255,255,0.3), transparent);
-  pointer-events: none;
-}
-
-.card-top-emojis {
-  display: flex; gap: 10px;
-  font-size: 1.5rem;
-  z-index: 1;
-}
-.card-top-emojis span { animation: floatBalloon 2.5s ease-in-out infinite; }
-.card-top-emojis span:nth-child(2) { animation-delay: 0.4s; }
-.card-top-emojis span:nth-child(3) { animation-delay: 0.8s; }
-@keyframes floatBalloon {
-  0%,100% { transform: translateY(0); }
-  50%      { transform: translateY(-8px); }
-}
-
-/* ── Photo circle ── */
-.photo-ring {
-  position: relative;
-  width: 155px; height: 155px;
-  border-radius: 50%;
-  background: conic-gradient(#ffd700, #ff6b6b, #a855f7, #48dbfb, #ffd700);
-  padding: 4px;
-  box-shadow: 0 0 40px rgba(255,215,0,0.5);
-  animation: ringGlow 2.5s ease-in-out infinite;
-  z-index: 1;
-}
-@keyframes ringGlow {
-  0%,100% { box-shadow: 0 0 25px rgba(255,215,0,0.4); }
-  50%      { box-shadow: 0 0 55px rgba(255,215,0,0.9), 0 0 90px rgba(168,85,247,0.4); }
-}
-.photo-circle {
-  width: 100%; height: 100%;
-  border-radius: 50%;
-  overflow: hidden;
-  background: #0f0c29;
-}
-
-/* ─────────────────────────────────────────────
-   👇 REPLACE src="" with your actual image path
-   e.g. src="raizel.jpg"  or  src="https://..."
-───────────────────────────────────────────── */
-.photo-circle img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  /* ADD YOUR PHOTO SRC HERE ↓ */
-  content: url("Raizel.jpg");        /* ← paste your image URL/path here */
-  display: block;
-}
-
-/* fallback emoji if no photo */
-.photo-circle .no-photo {
-  width: 100%; height: 100%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 4rem;
-}
-
-/* ── Name ── */
-.card-name {
-  font-family: 'Dancing Script', cursive;
-  font-size: 2.2rem;
-  color: #ffd700;
-  text-shadow: 0 0 25px rgba(255,215,0,0.7);
-  z-index: 1;
-  animation: namePop 0.6s cubic-bezier(0.34,1.56,0.64,1) both;
-}
-@keyframes namePop {
-  from { opacity:0; transform: scale(0.5); }
-  to   { opacity:1; transform: scale(1); }
-}
-
-/* ── Happy Birthday ── */
-.hb-text {
-  font-family: 'Pacifico', cursive;
-  font-size: 1.55rem;
-  background: linear-gradient(90deg, #ffd700, #ff6b6b, #a855f7, #48dbfb);
-  background-size: 200%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: shimmer 2s linear infinite, namePop 0.7s 0.2s cubic-bezier(0.34,1.56,0.64,1) both;
-  z-index: 1;
-  text-align: center;
-  letter-spacing: 1px;
-}
-
-.wish-msg {
-  font-size: 0.78rem;
-  color: rgba(255,255,255,0.75);
-  text-align: center;
-  line-height: 1.9;
-  z-index: 1;
-}
-
-.bottom-hearts {
-  font-size: 1.4rem;
-  z-index: 1;
-  animation: heartBeat 1.2s ease-in-out infinite;
-}
-@keyframes heartBeat {
-  0%,100% { transform: scale(1); }
-  50%      { transform: scale(1.3); }
-}
-
-/* ── Confetti ── */
-.confetti-piece {
-  position: fixed;
-  top: -12px;
-  animation: confettiFall linear forwards;
-  pointer-events: none;
-  z-index: 9999;
-  opacity: 0;
-}
-@keyframes confettiFall {
-  0%   { transform: translateY(0) rotate(0deg); opacity:1; }
-  100% { transform: translateY(110vh) rotate(900deg); opacity:0; }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>| Rony Nayak | </title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Inter', 'Space Grotesk', sans-serif;
+      background-color: #020210;
+      color: #eef;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+    .loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #010108;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      backdrop-filter: blur(12px);
+      transition: opacity 1s, visibility 1s;
+    }
+    .loader.hide {
+      opacity: 0;
+      visibility: hidden;
+    }
+    .loader-ring {
+      width: 80px;
+      height: 80px;
+      border: 4px solid rgba(0,255,255,0.2);
+      border-top: 4px solid #0ff;
+      border-radius: 50%;
+      animation: spin 1s infinite linear;
+      box-shadow: 0 0 20px #0ff;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    
+    #bg-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: auto;
+      display: block;
+    }
+    .main-content {
+      position: relative;
+      z-index: 10;
+    }
+    .glass-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(5,5,20,0.6);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(0,255,255,0.3);
+      padding: 1rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .logo {
+      font-weight: 800;
+      font-size: 1.5rem;
+      background: linear-gradient(135deg, #0ff, #f0f);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .nav-links a {
+      color: #ddd;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+    .nav-links a:hover {
+      color: #0ff;
+      text-shadow: 0 0 8px #0ff;
+    }
+    section {
+      padding: 80px 5%;
+      position: relative;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+      background: linear-gradient(120deg, #fff, #0ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-align: center;
+    }
+    .hero {
+      min-height: 85vh;
+      display: flex;
+      align-items: center;
+    }
+    .hero-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 3rem;
+      flex-wrap: wrap;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .hero-left {
+      flex: 1;
+      text-align: center;
+    }
+    .hero-right {
+      flex: 1.2;
+    }
+    .profile-frame {
+      width: 260px;
+      height: 260px;
+      margin: 0 auto;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #0ff, #f0f);
+      padding: 4px;
+      animation: floatAnim 4s infinite ease;
+      box-shadow: 0 0 30px rgba(0,255,255,0.5);
+    }
+    .profile-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      border-radius: 50%;
+      transform: scale(1.08);
+      background: #111;
+    }
+    @keyframes floatAnim {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+      100% { transform: translateY(0); }
+    }
+    .glow-text {
+      font-size: 3.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff, #0ff, #f0f);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .tagline {
+      font-size: 1.5rem;
+      letter-spacing: 2px;
+      margin: 0.8rem 0;
+      text-shadow: 0 0 8px #0ff;
+    }
+    .student-desc {
+      background: rgba(0,255,255,0.1);
+      display: inline-block;
+      padding: 0.5rem 1.2rem;
+      border-radius: 40px;
+      border-left: 3px solid #0ff;
+      margin: 1rem 0;
+    }
+    .btn {
+      padding: 10px 28px;
+      border-radius: 40px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: 0.3s;
+      display: inline-block;
+    }
+    .btn-primary {
+      background: rgba(0,255,255,0.15);
+      border: 1px solid #0ff;
+      color: #0ff;
+    }
+    .btn-primary:hover {
+      background: #0ff;
+      color: #000;
+      box-shadow: 0 0 20px #0ff;
+      transform: scale(1.03);
+    }
+    .about-text {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+      font-size: 1.2rem;
+      line-height: 1.6;
+      background: rgba(10,10,30,0.4);
+      backdrop-filter: blur(8px);
+      padding: 2rem;
+      border-radius: 40px;
+      border: 1px solid rgba(0,255,255,0.2);
+    }
+    .skills-grid {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 2.5rem;
+    }
+    .skill-item {
+      text-align: center;
+      transition: 0.3s;
+      padding: 0.5rem;
+    }
+    .skill-item i {
+      font-size: 4rem;
+      transition: 0.2s;
+    }
+    .skill-item span {
+      display: block;
+      margin-top: 0.5rem;
+      font-weight: 500;
+    }
+    .skill-item:hover {
+      transform: translateY(-6px);
+    }
+    .skill-item:hover i {
+      filter: drop-shadow(0 0 12px #0ff);
+      color: #0ff;
+    }
+    .timeline {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .timeline-item {
+      background: rgba(0,0,0,0.3);
+      backdrop-filter: blur(4px);
+      margin: 1.5rem 0;
+      padding: 1rem 1.8rem;
+      border-radius: 20px;
+      border-left: 4px solid #0ff;
+      transition: 0.2s;
+    }
+    .timeline-item:hover {
+      transform: translateX(5px);
+      border-left-color: #f0f;
+      background: rgba(0,255,255,0.05);
+    }
+    .contact-section {
+      text-align: center;
+    }
+    .social-icons-bottom {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+    .social-icons-bottom a {
+      color: #ddd;
+      font-size: 2rem;
+      background: rgba(255,255,255,0.05);
+      width: 65px;
+      height: 65px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 30px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(0,255,255,0.3);
+      transition: 0.2s;
+    }
+    .social-icons-bottom a:hover {
+      color: #0ff;
+      transform: translateY(-6px);
+      border-color: #0ff;
+      box-shadow: 0 0 18px #0ff;
+    }
+    footer {
+      text-align: center;
+      padding: 2rem;
+      opacity: 0.7;
+      font-size: 0.8rem;
+    }
+    @media (max-width: 900px) {
+      .hero-container { flex-direction: column; text-align: center; }
+      .hero-right { text-align: center; }
+      .glow-text { font-size: 2.5rem; }
+      .profile-frame {
+        width: 210px;
+        height: 210px;
+      }
+      .skill-item i { font-size: 3rem; }
+      .social-icons-bottom a { width: 50px; height: 50px; font-size: 1.5rem; }
+    }
+    .fade-up {
+      opacity: 0;
+      transform: translateY(25px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
 </head>
 <body>
-
-<div class="stars" id="stars"></div>
-
-<!-- ══ STEP 1: SURPRISE ══ -->
-<div id="step1">
-  <div class="surprise-text">✨ SURPRISE ✨</div>
-
-  <div class="surprise-box">
-    <div class="box-lid">
-      <div class="bow">🎀</div>
+<div id="loader" class="loader"><div class="loader-ring"></div></div>
+<canvas id="bg-canvas"></canvas>
+<div class="main-content">
+  <nav class="glass-nav">
+    <div class="logo">⚡ RONY NAYAK</div>
+    <div class="nav-links">
+      <a href="#home">Home</a><a href="#about">About</a><a href="#skills">Skills</a><a href="#education">Education</a><a href="#contact">Contact</a>
     </div>
-    <div class="pop-emojis">🎁🎊🎉</div>
-    <div class="box-body">
-      <div class="box-ribbon-h"></div>
-    </div>
-  </div>
-
-  <button class="click-btn" onclick="goToStep2()">🎁 Click Here</button>
-</div>
-
-<!-- ══ STEP 2: NAME INPUT ══ -->
-<div id="step2">
-  <div class="input-label">Apna Naam Likho 💫</div>
-  <div class="name-input-wrap">
-    <input class="name-input" id="nameInput" type="text" placeholder="Enter your name..."
-      onkeydown="if(event.key==='Enter') checkName()">
-  </div>
-  <button class="go-btn" onclick="checkName()">Open My Surprise 🎉</button>
-  <div class="wrong-name-msg" id="wrongMsg">❌ Yeh card sirf ek khaas insaan ke liye hai!</div>
-</div>
-
-<!-- ══ STEP 3: WISH CARD ══ -->
-<div id="step3">
-  <div class="wish-card">
-    <div class="card-stars-bg"></div>
-    <div class="card-top-emojis">
-      <span>🎈</span><span>🎂</span><span>🎈</span>
-    </div>
-
-    <!-- PHOTO -->
-    <div class="photo-ring">
-      <div class="photo-circle">
-        <!--
-          ════════════════════════════════════
-          👇 APNI PHOTO YAHAN ADD KARO
-          src ke andar photo ka path ya URL do
-          ════════════════════════════════════
-        -->
-        <img src="Raizel.jpg" alt="Raizel"
-          onerror="this.style.display='none'; document.getElementById('fallbackEmoji').style.display='flex'">
-        <div class="no-photo" id="fallbackEmoji" style="display:none">🌸</div>
+  </nav>
+  <section id="home" class="hero">
+    <div class="hero-container">
+      <div class="hero-left">
+        <div class="profile-frame">
+          <img src="profile.jpg" alt="Rony Nayak" class="profile-img" onerror="this.src='https://ui-avatars.com/api/?background=0a0a2a&color=0ff&size=240&name=Rony+Nayak&rounded=true&bold=true&length=2';">
+        </div>
+      </div>
+      <div class="hero-right">
+        <h1 class="glow-text">Rony Nayak</h1>
+        <div class="tagline">Think Differently</div>
+        <div class="student-desc"><i class="fas fa-laptop-code"></i> Passionate about programming, AI, futuristic technology</div>
+        <p style="margin: 1rem 0;">Currently learning Python, Web Development, AI systems, and advanced futuristic projects.</p>
+        <a href="#contact" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Explore My Journey →</a>
       </div>
     </div>
-
-    <!-- NAME -->
-    <div class="card-name" id="cardName">Raizel</div>
-
-    <!-- HAPPY BIRTHDAY -->
-    <div class="hb-text">🎂 Happy Birthday! 🎂</div>
-
-    <div class="wish-msg">
-      May your day be wrapped in joy and laughter,<br>
-      May every dream you hold come true,<br>
-      And may the year ahead be your most beautiful one yet. 🎂✨<br>
-        Happy Birthday, Raizel! 💖
+  </section>
+  <section id="about">
+    <div class="container"><h2>MY JOURNEY</h2>
+      <div class="about-text">Passionate developer from India, interested in AI, Web Development, Ethical Hacking, Unity, Swift, and futuristic technologies. Loves building AI systems and advanced digital experiences. Currently mastering Python, HTML, CSS, and JavaScript.</div>
     </div>
+  </section>
+  <section id="skills">
+    <div class="container"><h2>LEARNING TOOLKITS</h2>
+      <div class="skills-grid">
+        <div class="skill-item"><i class="fab fa-python"></i><span>Python</span></div>
+        <div class="skill-item"><i class="fab fa-html5"></i><span>HTML5</span></div>
+        <div class="skill-item"><i class="fab fa-css3-alt"></i><span>CSS3</span></div>
+        <div class="skill-item"><i class="fab fa-js"></i><span>JavaScript</span></div>
+      </div>
+    </div>
+  </section>
+  <section id="education">
+    <div class="container"><h2> EDUCATION </h2>
+      <div class="timeline">
+        <div class="timeline-item"><strong> D.El.Ed</strong> — 2019 | <span style="color:#0ff;">87.9%</span><br>Diploma in Elementary Education</div>
+        <div class="timeline-item"><strong> 12th Class</strong> — 2017 | <span style="color:#0ff;">62.4%</span><br>Higher Secondary</div>
+        <div class="timeline-item"><strong> 10th Class</strong> — 2015 | <span style="color:#0ff;">58.7%</span><br>Secondary Education</div>
+      </div>
+    </div>
+  </section>
+  <section id="contact" class="contact-section">
+    <div class="container"><h2>GET IN TOUCH</h2>
+      <p>Let's collaborate and create the future.</p>
+      <div class="social-icons-bottom">
+        <a href="https://youtube.com/@irony_nayak?si=TVoL5jF3ymsbuHzb" target="_blank" aria-label="YouTube">
+          <i class="fab fa-youtube"></i>
+        </a>
 
-    <div class="bottom-hearts">💖 💛 💜 💛 💖</div>
-  </div>
+        <a href="https://github.com/Ronysgit" target="_blank" aria-label="GitHub">
+          <i class="fab fa-github"></i>
+        </a>
+
+        <a href="https://www.instagram.com/_r_o_n_y_s_world_/profilecard/?igsh=MTJsY3pjOXVieno5Ng==" target="_blank" aria-label="Instagram">
+          <i class="fab fa-instagram"></i>
+        </a>
+
+        <a href="https://www.linkedin.com/in/ronit-kumar-nayak-4b86a3245?utm_source=share_via&utm_content=profile&utm_medium=member_ios" target="_blank" aria-label="LinkedIn">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+
+        <a href="mailto:ironydev@gmail.com" aria-label="Email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+  <footer>© 2026 Rony Nayak — Build Don't Talk </footer>
 </div>
 
-<script>
-// ── Generate stars ──
-const starsEl = document.getElementById('stars');
-for (let i = 0; i < 80; i++) {
-  const s = document.createElement('div');
-  s.className = 'star';
-  const size = 1 + Math.random() * 2.5;
-  s.style.cssText = `
-    left:${Math.random()*100}vw; top:${Math.random()*100}vh;
-    width:${size}px; height:${size}px;
-    animation-duration:${2+Math.random()*4}s;
-    animation-delay:${Math.random()*4}s;
-  `;
-  starsEl.appendChild(s);
-}
-
-// ── Floating particles ──
-const pColors = ['#ff6b6b','#ffd700','#a855f7','#48dbfb','#ff9ff3','#feca57','#26de81'];
-for (let i = 0; i < 20; i++) {
-  const p = document.createElement('div');
-  p.className = 'particle';
-  const size = 4 + Math.random() * 6;
-  p.style.cssText = `
-    left:${Math.random()*100}vw;
-    background:${pColors[Math.floor(Math.random()*pColors.length)]};
-    width:${size}px; height:${size}px;
-    animation-duration:${5+Math.random()*7}s;
-    animation-delay:${Math.random()*7}s;
-  `;
-  document.body.appendChild(p);
-}
-
-// ── Step 1 → 2 ──
-function goToStep2() {
-  document.getElementById('step1').style.display = 'none';
-  const s2 = document.getElementById('step2');
-  s2.style.display = 'flex';
-  setTimeout(() => document.getElementById('nameInput').focus(), 100);
-}
-
-// ── Check name ──
-function checkName() {
-  const val = document.getElementById('nameInput').value.trim();
-  const normalized = val.toLowerCase().replace(/\s+/g, '');
-  // Accepts: raizel, Raizel, RAIZEL
-  if (normalized === 'raizel') {
-    showCard();
-  } else {
-    const msg = document.getElementById('wrongMsg');
-    msg.classList.add('show');
-    document.getElementById('nameInput').style.borderColor = '#ff6b6b';
-    setTimeout(() => {
-      msg.classList.remove('show');
-      document.getElementById('nameInput').style.borderColor = 'rgba(255,215,0,0.4)';
-    }, 2500);
+<script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.128.0/build/three.module.js"
+    }
   }
-}
+</script>
+<script type="module">
+  import * as THREE from 'three';
 
-// ── Show wish card ──
-function showCard() {
-  document.getElementById('step2').style.display = 'none';
-  const s3 = document.getElementById('step3');
-  s3.style.display = 'flex';
-  fireConfetti();
-}
+  // Setup scene, camera, renderer
+  const canvas = document.getElementById('bg-canvas');
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x020210);
+  scene.fog = new THREE.FogExp2(0x020210, 0.006);
 
-// ── Confetti ──
-function fireConfetti() {
-  const colors = ['#ffd700','#ff6b6b','#a855f7','#48dbfb','#ff9ff3','#26de81','#feca57'];
-  for (let i = 0; i < 120; i++) {
-    setTimeout(() => {
-      const c = document.createElement('div');
-      c.className = 'confetti-piece';
-      const size = 7 + Math.random() * 10;
-      c.style.cssText = `
-        left:${Math.random()*100}vw;
-        background:${colors[Math.floor(Math.random()*colors.length)]};
-        width:${size}px; height:${size}px;
-        border-radius:${Math.random()>0.5 ? '50%' : '3px'};
-        animation-duration:${1.8+Math.random()*2}s;
-        animation-delay:0s;
-      `;
-      document.body.appendChild(c);
-      setTimeout(() => c.remove(), 4500);
-    }, i * 20);
+  const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.set(0, 1.5, 10);
+  camera.lookAt(0, 0, 0);
+
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: false, antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  // --- CREATE A 3D NETWORK GRAPH (nodes + connecting lines + traveling particles) ---
+  const nodeCount = 45;
+  const nodes = [];
+  const connections = [];
+  const particles = [];
+  
+  // Generate random nodes within a sphere
+  for (let i = 0; i < nodeCount; i++) {
+    const radius = 2.5 + Math.random() * 1.5;
+    const theta = Math.random() * Math.PI * 2;
+    const phi = Math.acos(2 * Math.random() - 1);
+    const x = radius * Math.sin(phi) * Math.cos(theta);
+    const y = radius * Math.sin(phi) * Math.sin(theta) * 0.8;
+    const z = radius * Math.cos(phi);
+    nodes.push({ x, y, z, id: i });
   }
-}
+  
+  // Create connections between nearby nodes (Delaunay-like)
+  for (let i = 0; i < nodes.length; i++) {
+    for (let j = i + 1; j < nodes.length; j++) {
+      const dx = nodes[i].x - nodes[j].x;
+      const dy = nodes[i].y - nodes[j].y;
+      const dz = nodes[i].z - nodes[j].z;
+      const dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
+      if (dist < 2.2) {
+        connections.push({ from: i, to: j, dist });
+      }
+    }
+  }
+  
+  // Line geometry for connections
+  const lineVertices = [];
+  connections.forEach(conn => {
+    const from = nodes[conn.from];
+    const to = nodes[conn.to];
+    lineVertices.push(new THREE.Vector3(from.x, from.y, from.z));
+    lineVertices.push(new THREE.Vector3(to.x, to.y, to.z));
+  });
+  const lineGeometry = new THREE.BufferGeometry().setFromPoints(lineVertices);
+  const lineMaterial = new THREE.LineBasicMaterial({ color: 0x33aaff, transparent: true, opacity: 0.4 });
+  const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
+  scene.add(lines);
+  
+  // Node spheres (glowing)
+  const nodeMat = new THREE.MeshStandardMaterial({ color: 0x88aaff, emissive: 0x2266aa, emissiveIntensity: 0.6 });
+  const nodeSpheres = [];
+  nodes.forEach((node, idx) => {
+    const sphereGeo = new THREE.SphereGeometry(0.09, 16, 16);
+    const sphere = new THREE.Mesh(sphereGeo, nodeMat.clone());
+    sphere.position.set(node.x, node.y, node.z);
+    scene.add(sphere);
+    nodeSpheres.push(sphere);
+  });
+  
+  // Traveling particles along connections
+  const particleSpeed = 0.003;
+  const travelingParticles = [];
+  const particleCount = 60;
+  for (let i = 0; i < particleCount; i++) {
+    const conn = connections[Math.floor(Math.random() * connections.length)];
+    const from = nodes[conn.from];
+    const to = nodes[conn.to];
+    const particleGeo = new THREE.SphereGeometry(0.045, 8, 8);
+    const particleMat = new THREE.MeshStandardMaterial({ color: 0xff66cc, emissive: 0xff2288, emissiveIntensity: 0.8 });
+    const particle = new THREE.Mesh(particleGeo, particleMat);
+    scene.add(particle);
+    travelingParticles.push({
+      mesh: particle,
+      from: conn.from,
+      to: conn.to,
+      progress: Math.random(),
+      speed: 0.002 + Math.random() * 0.004
+    });
+  }
+  
+  // --- CENTRAL CORE: Rotating Dodecahedron with pulsing light ---
+  const coreGeo = new THREE.DodecahedronGeometry(0.85, 0);
+  const coreMat = new THREE.MeshStandardMaterial({
+    color: 0xff44aa,
+    emissive: 0xff2288,
+    emissiveIntensity: 0.9,
+    metalness: 0.7,
+    roughness: 0.3
+  });
+  const coreMesh = new THREE.Mesh(coreGeo, coreMat);
+  scene.add(coreMesh);
+  
+  // Outer wireframe cage
+  const wireframeGeo = new THREE.DodecahedronGeometry(1.05, 0);
+  const wireframeMat = new THREE.MeshBasicMaterial({ color: 0x88aaff, wireframe: true, transparent: true, opacity: 0.25 });
+  const wireframeCage = new THREE.Mesh(wireframeGeo, wireframeMat);
+  scene.add(wireframeCage);
+  
+  // Floating energy orbs around core
+  const orbCount = 24;
+  const orbs = [];
+  for (let i = 0; i < orbCount; i++) {
+    const orbGeo = new THREE.SphereGeometry(0.07, 12, 12);
+    const orbMat = new THREE.MeshStandardMaterial({ color: 0x44aaff, emissive: 0x2288cc, emissiveIntensity: 0.7 });
+    const orb = new THREE.Mesh(orbGeo, orbMat);
+    const angle = (i / orbCount) * Math.PI * 2;
+    orb.userData = { angle, radius: 1.4, speed: 0.008 };
+    orb.position.x = Math.cos(angle) * 1.4;
+    orb.position.z = Math.sin(angle) * 1.4;
+    orb.position.y = Math.sin(angle * 2) * 0.4;
+    scene.add(orb);
+    orbs.push(orb);
+  }
+  
+  // --- BACKGROUND STARS (distant particles) ---
+  const starCountBg = 1800;
+  const starGeo = new THREE.BufferGeometry();
+  const starPositions = [];
+  for (let i = 0; i < starCountBg; i++) {
+    starPositions.push((Math.random() - 0.5) * 200);
+    starPositions.push((Math.random() - 0.5) * 100);
+    starPositions.push((Math.random() - 0.5) * 80 - 40);
+  }
+  starGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(starPositions), 3));
+  const starMat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.06, transparent: true, opacity: 0.5 });
+  const stars = new THREE.Points(starGeo, starMat);
+  scene.add(stars);
+  
+  // --- LIGHTS ---
+  const ambientLight = new THREE.AmbientLight(0x111122);
+  scene.add(ambientLight);
+  const mainLight = new THREE.DirectionalLight(0x88aaff, 0.9);
+  mainLight.position.set(2, 4, 3);
+  scene.add(mainLight);
+  const backLight = new THREE.PointLight(0xff44aa, 0.5);
+  backLight.position.set(-2, 1, -4);
+  scene.add(backLight);
+  const fillLight = new THREE.PointLight(0x44aaff, 0.4);
+  fillLight.position.set(2, 1, 3);
+  scene.add(fillLight);
+  const centerLight = new THREE.PointLight(0xffaa66, 0.7);
+  centerLight.position.set(0, 0, 0);
+  scene.add(centerLight);
+  
+  // --- MOUSE INTERACTION (rotate entire network) ---
+  let mouseX = 0.5, mouseY = 0.5;
+  let targetRotY = 0, targetRotX = 0;
+  let currentRotY = 0, currentRotX = 0;
+  
+  canvas.addEventListener('mousemove', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    mouseX = e.clientX / rect.width;
+    mouseY = e.clientY / rect.height;
+    targetRotY = (mouseX - 0.5) * 1.2;
+    targetRotX = (mouseY - 0.5) * 0.6;
+  });
+  canvas.addEventListener('touchmove', (e) => {
+    if (e.touches.length) {
+      const rect = canvas.getBoundingClientRect();
+      mouseX = e.touches[0].clientX / rect.width;
+      mouseY = e.touches[0].clientY / rect.height;
+      targetRotY = (mouseX - 0.5) * 1.2;
+      targetRotX = (mouseY - 0.5) * 0.6;
+    }
+  });
+  
+  // --- SCROLL REACTIVITY ---
+  let scrollPercent = 0;
+  function updateScrollReactivity() {
+    const scrollY = window.scrollY;
+    const maxScroll = document.body.scrollHeight - window.innerHeight;
+    scrollPercent = maxScroll > 0 ? scrollY / maxScroll : 0;
+    
+    // Network expands slightly
+    const scaleVal = 1 + scrollPercent * 0.3;
+    nodes.forEach((node, idx) => {
+      if (nodeSpheres[idx]) {
+        nodeSpheres[idx].scale.set(scaleVal, scaleVal, scaleVal);
+      }
+    });
+    lines.scale.set(scaleVal, scaleVal, scaleVal);
+    
+    // Core intensity
+    coreMat.emissiveIntensity = 0.8 + scrollPercent * 1.2;
+    centerLight.intensity = 0.5 + scrollPercent * 0.8;
+    
+    // Particle speed increases
+    travelingParticles.forEach(p => {
+      p.speed = 0.002 + scrollPercent * 0.008;
+    });
+    
+    camera.position.z = 10 - scrollPercent * 1.2;
+  }
+  window.addEventListener('scroll', updateScrollReactivity);
+  updateScrollReactivity();
+  
+  // --- ANIMATION LOOP ---
+  let time = 0;
+  function animate() {
+    requestAnimationFrame(animate);
+    time += 0.012;
+    
+    // Smooth rotation from mouse
+    currentRotY += (targetRotY - currentRotY) * 0.05;
+    currentRotX += (targetRotX - currentRotX) * 0.05;
+    
+    // Rotate entire network group (we rotate nodes, lines, particles together)
+    const rotGroup = (obj) => {
+      if (obj.rotation) {
+        obj.rotation.y = currentRotY * 1.2;
+        obj.rotation.x = currentRotX * 0.6;
+      }
+    };
+    // Apply rotation to the whole system (simpler: rotate each component)
+    const groupRotationY = currentRotY * 1.2;
+    const groupRotationX = currentRotX * 0.6;
+    
+    // Update node spheres positions (they are static in local space, so we don't need to update)
+    // Instead, we'll rotate the entire scene's children? Better to rotate a container group, but for simplicity we rotate camera.
+    // Actually easier: apply rotation to the camera from mouse, keep objects fixed.
+    // But we also need the network to rotate relative to camera? Let's just rotate camera.
+    // Already doing camera mouse follow below.
+    
+    // Update traveling particles along connections
+    travelingParticles.forEach(p => {
+      p.progress += p.speed;
+      if (p.progress >= 1) {
+        p.progress = 0;
+        // Pick new random connection
+        const newConn = connections[Math.floor(Math.random() * connections.length)];
+        p.from = newConn.from;
+        p.to = newConn.to;
+      }
+      const fromNode = nodes[p.from];
+      const toNode = nodes[p.to];
+      const t = p.progress;
+      const px = fromNode.x * (1 - t) + toNode.x * t;
+      const py = fromNode.y * (1 - t) + toNode.y * t;
+      const pz = fromNode.z * (1 - t) + toNode.z * t;
+      p.mesh.position.set(px, py, pz);
+      
+      // Color pulse based on progress
+      const hue = 0.65 + Math.sin(time * 5) * 0.1;
+      p.mesh.material.color.setHSL(hue, 1.0, 0.6);
+    });
+    
+    // Animate orbiting orbs
+    orbs.forEach(orb => {
+      orb.userData.angle += orb.userData.speed;
+      const ang = orb.userData.angle;
+      const r = 1.4;
+      orb.position.x = Math.cos(ang) * r;
+      orb.position.z = Math.sin(ang) * r;
+      orb.position.y = Math.sin(ang * 2) * 0.5;
+      orb.scale.setScalar(0.8 + Math.sin(time * 5) * 0.2);
+    });
+    
+    // Rotate core
+    coreMesh.rotation.x += 0.005;
+    coreMesh.rotation.y += 0.007;
+    coreMesh.rotation.z += 0.003;
+    wireframeCage.rotation.x = coreMesh.rotation.x;
+    wireframeCage.rotation.y = coreMesh.rotation.y;
+    
+    // Node spheres glow pulse
+    nodeSpheres.forEach((sphere, idx) => {
+      const intensity = 0.5 + Math.sin(time * 2 + idx) * 0.3;
+      sphere.material.emissiveIntensity = intensity;
+    });
+    
+    // Stars rotation
+    stars.rotation.y += 0.0003;
+    
+    // Camera mouse follow (parallax)
+    camera.position.x += (currentRotY * 0.5 - camera.position.x) * 0.04;
+    camera.position.y += (currentRotX * 0.3 - camera.position.y) * 0.04;
+    camera.lookAt(0, 0.1, 0);
+    
+    // Dynamic colors for lines
+    const lineHue = 0.55 + Math.sin(time * 0.3) * 0.1;
+    lineMaterial.color.setHSL(lineHue, 1.0, 0.5);
+    
+    // Center light pulse
+    centerLight.intensity = 0.6 + Math.sin(time * 3) * 0.3 + scrollPercent * 0.5;
+    
+    renderer.render(scene, camera);
+  }
+  animate();
+  
+  // Resize handler
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+  
+  // Intersection Observer for fade-in
+  const fadeElements = document.querySelectorAll('.hero-left, .hero-right, .about-text, .skill-item, .timeline-item, .social-icons-bottom');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+  fadeElements.forEach(el => {
+    el.classList.add('fade-up');
+    observer.observe(el);
+  });
+  document.querySelector('.hero-container')?.classList.add('visible');
+  
+  // Loader removal + force page start from top
+  function removeLoader() {
+    const loader = document.getElementById('loader');
+
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'auto'
+    });
+
+    if (loader) {
+      loader.classList.add('hide');
+
+      setTimeout(() => {
+        loader.style.display = 'none';
+      }, 600);
+    }
+  }
+
+  window.addEventListener('load', () => {
+    removeLoader();
+  });
+
+  window.addEventListener('beforeunload', () => {
+    window.scrollTo(0, 0);
+  });
+
+  setTimeout(removeLoader, 1200);
+  
+  document.body.style.overflowX = 'hidden';
+
+  // Always start page from top
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+
+  window.scrollTo(0, 0);
 </script>
 </body>
 </html>
